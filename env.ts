@@ -16,6 +16,7 @@ export const env = createEnv({
     GOOGLE_OAUTH_CLIENT_ID: z.string().default(''),
     GOOGLE_OAUTH_CLIENT_SECRET: z.string().default(''),
     GOOGLE_OAUTH_CLIENT_REDIRECT_URI: z.string().url().default(''),
+    OPENAI_API_KEY: z.string(),
   },
   shared: {
     NEXT_PUBLIC_API_URL: z
@@ -33,6 +34,7 @@ export const env = createEnv({
     GOOGLE_OAUTH_CLIENT_REDIRECT_URI:
       process.env.GOOGLE_OAUTH_CLIENT_REDIRECT_URI,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   },
   emptyStringAsUndefined: true,
 })

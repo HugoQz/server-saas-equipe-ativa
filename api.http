@@ -1,3 +1,6 @@
+### AUTH
+
+### Create a new account
 POST http://localhost:3333/users
 Content-Type: application/json
  
@@ -7,29 +10,18 @@ Content-Type: application/json
   "password": "romerito"
 }
 
-###
-
-
+### Authenticate with e-mail & password
 POST http://localhost:3333/sessions/password
 Content-Type: application/json
  
 {
-  "email": "hugo@acmeclerk.com",
-  "password": "romerito1"
+  "email": "hugoxvida@gmail.com",
+  "password": "romerito"
 }
 
-###
-
+### Get authenticate user profile
 GET http://localhost:3333/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMDBjMDRiNC01ODQ3LTRjZTctOWExNi0xZDI2NWYyMzhlN2MiLCJpYXQiOjE3NDE4MjU3ODQsImV4cCI6MTc0MjQzMDU4NH0.lR4viIi7PYb3OMoM1e1S9NPnsHHy7BiqKmGELF89FKM
- 
-
-###
-
-
-GET http://localhost:3333/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyODk0MmQyYi1iMmNhLTQyNzItODg5Ny1kMDgyZTBhYzJhYjAiLCJpYXQiOjE3NDE4OTcyMjIsImV4cCI6MTc0MjUwMjAyMn0.Wyaf61qMlh3uc2gA7AM_JyyBrTmkjp-Ckeu4OA8Qs20
- 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NDAwOGNmMS1jNjVlLTRlNmItODU5YS1iYWU0Zjk5MzQ4NzgiLCJpYXQiOjE3NTE5MTM0NTIsImV4cCI6MTc1MjUxODI1Mn0.qFt8bgceX9meQ1uK_An5c_UAw78ad5gp-7eBBvBNQQw
 
 ### Teste de autenticação com Google OAuth
 POST http://localhost:3333/sessions/google
@@ -38,6 +30,30 @@ Content-Type: application/json
 {
   "code": "4/0AQSTgQGPsgqDN05cvb5cgSYWTYUe9HMzPbkn0Ia_bJtJVZgYnQagboDoFzjNLJ72MRNyfQ"
 }
+
+### 
+
+POST http://localhost:3333/password/recover
+Content-Type: application/json
+
+{
+  "email": "hugoxvida@gmail.com"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### Teste de autenticação com Google OAuth
@@ -86,3 +102,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjViY2Q0Y
 {
   "status": "IN_PROGRESS"
 }
+
+###
+
+
+GET https://api.pexels.com/v1/search?query=music
+Content-Type: application/json
+Authorization: tuFISvxpU98P7GOZMKtWDPQhqXb0WzcAAyFWDzEMZoteQtu9jfh8jhdL

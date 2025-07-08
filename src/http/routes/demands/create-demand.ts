@@ -7,6 +7,7 @@ import { BadRequestError } from '../_errors/bad-request-error'
 import { DemandCategory, DemandPriority } from '@prisma/client'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 import { UnauthorizedError } from '../_errors/unauthorized-error'
+import { classifyDemandAi } from '@/utils/classify-demand-ai'
 
 export async function createDemand(app: FastifyInstance) {
   app
@@ -22,8 +23,6 @@ export async function createDemand(app: FastifyInstance) {
           body: z.object({
             title: z.string(),
             description: z.string(),
-            priority: z.nativeEnum(DemandPriority),
-            category: z.nativeEnum(DemandCategory),
             cep: z.string().nullable(),
             state: z.string().nullable(),
             city: z.string().nullable(),
@@ -60,7 +59,6 @@ export async function createDemand(app: FastifyInstance) {
           )
         }
 
-        // Busca a organização pelo slug informado (renomeada para evitar conflito)
         const org = await prisma.organization.findUnique({
           where: { slug: organizationSlug },
         })
@@ -68,7 +66,6 @@ export async function createDemand(app: FastifyInstance) {
           throw new BadRequestError('Organização não encontrada')
         }
 
-        // Busca a unidade que pertença à organização
         const unit = await prisma.unit.findFirst({
           where: {
             slug: unitSlug,
@@ -83,7 +80,6 @@ export async function createDemand(app: FastifyInstance) {
           )
         }
 
-        // Busca o Applicant com base no applicantSlug
         const applicant = await prisma.applicant.findUnique({
           where: { id: applicantSlug },
         })
@@ -91,7 +87,6 @@ export async function createDemand(app: FastifyInstance) {
           throw new BadRequestError('Solicitante não encontrado')
         }
 
-        // Busca o usuário autenticado para obter o nome
         const user = await prisma.user.findUnique({
           where: { id: userId },
         })
@@ -102,8 +97,6 @@ export async function createDemand(app: FastifyInstance) {
         const {
           title,
           description,
-          priority,
-          category,
           cep,
           state,
           city,
@@ -113,12 +106,16 @@ export async function createDemand(app: FastifyInstance) {
           number,
         } = request.body
 
+        const result = await classifyDemandAi({ description })
+        const finalPriority = result.priority as DemandPriority
+        const finalCategory = result.category as DemandCategory
+
         const demand = await prisma.demand.create({
           data: {
             title,
             description,
-            priority,
-            category,
+            priority: finalPriority,
+            category: finalCategory,
             cep,
             state,
             city,
